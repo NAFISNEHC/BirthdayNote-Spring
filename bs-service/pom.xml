@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 基本信息 -->
+    <artifactId>bs-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>bs-service</name>
+
+    <!-- 继承本项目的父工程 -->
+    <parent>
+        <artifactId>birthday-note</artifactId>
+        <groupId>com.kk</groupId>
+        <version>0.1.0</version>
+    </parent>
+
+    <!-- Server模块相关依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>com.kk</groupId>
+            <artifactId>bs-mapper</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kk</groupId>
+            <artifactId>bs-entity</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>theling</groupId>
+            <artifactId>bs-comm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>

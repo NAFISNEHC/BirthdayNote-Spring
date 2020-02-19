@@ -1,0 +1,65 @@
+spring:
+  # DataSource Config
+  datasource:
+    # 使用阿里的Druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      stat-view-servlet:
+        loginUsername: admin
+        loginPassword: 123456
+    # 使用多数据源切换
+    dynamic:
+      druid:
+        # 初始化大小，最小，最大
+        initial-size: 5
+        min-idle: 5
+        maxActive: 20
+        # 配置获取连接等待超时的时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候回抛出异常,不启动会使用默认数据源.
+      datasource:
+        master:
+          url: jdbc:p6spy:mysql://94.191.86.96:3306/birthday_note?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
+          username: root
+          password: 123456
+          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+        minor:
+          url: jdbc:p6spy:mysql://127.0.0.1:3306/birthday_note?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
+          username: root
+          password: 123456
+          driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:      # 密码（默认为空）
+    timeout: 6000  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制
+        max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+
+upload:
+  #win的配置
+  img: D:\temp\img\
+  apk: D:\temp\apk\
+  excel: D:\temp\excel\
+  zip: D:\temp\zip\
+  file: D:\temp\file\
+  log: D:\temp\log\
+  #mac的配置
+  #eventimgpath: /Users/yons/Documents/img
+  #appurl: /Users/yons/Documents/apk
+  #excelpath: /Users/yons/Documents/excel
+
+#权限配置
+kk:
+  permissions: false

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.bs.mapper.master.BnUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kk.bs.entity.master.BnUser">
+        <id column="U_ID" property="uId"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="SEX" property="sex"/>
+        <result column="PHONE" property="phone"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <sql id="Base_Column_List">
+        t.U_ID as uId, t.USER_NAME as userName, t.SEX as sex, t.PHONE as phone
+    </sql>
+
+    <!--Where子句 -->
+    <!-- 通用查询映射结果 -->
+    <sql id="Base_Query_Where">
+        <if test="uId != null and uId != ''">
+            AND t.U_ID = #{uId}
+        </if>
+        <if test="userName != null and userName != ''">
+            AND t.USER_NAME = #{userName}
+        </if>
+        <if test="sex != null and sex != ''">
+            AND t.SEX = #{sex}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND t.PHONE = #{phone}
+        </if>
+    </sql>
+    <!--
+        分页查询数据库表
+      -->
+    <select id="selectByParams" resultType="java.util.Map">
+        SELECT
+            t.BIRTHDAY as birthday,
+            t.PHONE as phone,
+            t.SEX as sex,
+            t.USER_NAME as userName,
+            t.U_ID as uId,
+            ISNULL(l.SEND_TIME) as sendSMS
+        FROM
+            bn_user AS t
+            LEFT JOIN send_log AS l ON t.U_ID = l.SEND_USER_ID
+        WHERE
+            YEAR(l.SEND_TIME)=YEAR(NOW()) OR l.SEND_TIME is null
+        <if test="params.keyword != null">
+            AND CONCAT(t.USER_NAME, t.PHONE) REGEXP #{params.keyword}
+        </if>
+        <if test="params.startDay != null">
+            AND t.BIRTHDAY &gt;= #{params.startDay}
+        </if>
+        <if test="params.endDay != null">
+            AND t.BIRTHDAY &lt;= #{params.endDay}
+        </if>
+        ORDER BY sendSMS DESC
+    </select>
+
+    <select id="query" resultType="com.kk.bs.entity.master.BnUser">
+        select
+        <include refid="Base_Column_List"/>
+        from bn_user as t
+        WHERE 1 = 1
+        <where>
+            <include refid="Base_Query_Where"/>
+        </where>
+    </select>
+
+    <select id="queryTotal" resultType="long">
+        select count(*) from bn_user
+    </select>
+
+</mapper>

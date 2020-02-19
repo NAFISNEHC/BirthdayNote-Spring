@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kk.bs.mapper.master.SendLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kk.bs.entity.master.SendLog">
+        <id column="L_ID" property="lId"/>
+        <result column="SEND_TIME" property="sendTime"/>
+        <result column="SEND_USER" property="sendUser"/>
+        <result column="SEND_USER_ID" property="sendUserId"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <sql id="Base_Column_List">
+        t.L_ID as lId,
+        t.SEND_TIME as sendTime,
+        t.SEND_USER as sendUser,
+        t.SEND_USER_ID as sendUserId
+    </sql>
+
+    <!--Where子句 -->
+    <!-- 通用查询映射结果 -->
+    <sql id="Base_Query_Where">
+        <if test="lId != null and lId != ''">
+            AND t.L_ID = #{lId}
+        </if>
+        <if test="sendTime != null and sendTime != ''">
+            AND t.SEND_TIME = #{sendTime}
+        </if>
+        <if test="sendUser != null and sendUser != ''">
+            AND t.SEND_USER = #{sendUser}
+        </if>
+        <if test="sendUserId != null and sendUserId != ''">
+            AND t.SEND_USER_ID = #{sendUserId}
+        </if>
+    </sql>
+    <!--
+        分页查询数据库表
+      -->
+    <select id="selectByParams" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from send_log as t
+        WHERE 1 = 1
+        <where>
+            <include refid="Base_Query_Where"/>
+        </where>
+    </select>
+
+    <select id="query" resultType="com.kk.bs.entity.master.SendLog">
+        select
+        <include refid="Base_Column_List"/>
+        from send_log as t
+        WHERE 1 = 1
+        <where>
+            <include refid="Base_Query_Where"/>
+        </where>
+    </select>
+
+    <select id="queryTotal" resultType="long">
+        select count(*) from send_log
+    </select>
+
+</mapper>

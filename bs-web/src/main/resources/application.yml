@@ -1,0 +1,66 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+    port-header: X-Forwarded-Port
+    protocol-header: x-forwarded-proto
+    remote-ip-header: x-forwarded-for
+  servlet:
+    context-path: /bn
+server.port: 8080
+
+spring:
+  # 环境 dev|test|prod
+  profiles:
+    active: #spring.profiles.active#
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  resources:
+    static-locations: file:${upload.img}, file:${upload.apk},file:${upload.excel},file:${upload.zip},file:${upload.file},file:${upload.log},classpath:/static/
+  devtools: # 排除修改后重启目录
+    restart:
+      exclude: templates/**,static/**
+  # web模板引擎
+  freemarker:
+    suffix: .html
+    request-context-attribute: request
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    cache: false
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+    servlet:
+      content-type: text/html
+# Logger Config
+logging:
+  level:
+    com.kk: info
+    com.baomidou.mybatisplus.samples.quickstart: info
+    java.sql: debug
+    org.springframework.web: trace
+  path: logs/
+  file: logs/server.log
+
+theling:
+  redis:
+    open: true  # 是否开启redis缓存  true开启   false关闭
+  isopenlog: false
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.kk.bs.entity.*.*
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认为 true
+    cache-enabled: false
+    #指定当结果集中值为 null 的时候是否调用映射对象的 Setter（Map 对象时为 put）方法，通常运用于有 Map.keySet() 依赖或 null 值初始化的情况。
+    call-setters-on-nulls: true
